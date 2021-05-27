@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #2C3E50;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.container {
+    text-align: center;
+}
+
+.title h1 {
+    color: #fff;
+}
+
+.title h1 span:first-child {
+    color: #1ABC9C;
+}
+
+.title h1 span:last-child {
+    color: #E74C3C;
+}
+
+.game {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: #fff;
+    margin: 50px 0;
+}
+
+.game button {
+    width: 120px;
+    height: 120px;
+    border: none;
+    outline: none;
+    background-color: #2C3E50;
+    border: 1px solid #fff;
+    font-size: 4rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.game button:hover {
+    background-color: #34495E;
+}
+
+.players-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+.player h4 {
+    font-size: 1.4rem;
+}
+
+.player .fa-user-circle {
+    margin: 10px 0;
+    font-size: 4rem;
+}
+
+.player span {
+    font-size: 1.4rem;
+}
+
+.player-1 h4, .player-1 .fa-user-circle, .player-1 span {
+    color: #1ABC9C;
+}
+
+.player-2 h4, .player-2 .fa-user-circle, .player-2 span {
+    color: #E74C3C;
+}
