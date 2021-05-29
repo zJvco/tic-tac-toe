@@ -8,6 +8,7 @@
 const fields = document.querySelectorAll(".fieldBtn")
 const player1 = document.querySelector(".player-1")
 const player2 = document.querySelector(".player-2")
+const restart = document.getElementById("restart")
 
 const matriz = [[null,null,null], [null,null,null], [null,null,null]]
 
@@ -25,7 +26,7 @@ const match_WIN_ALL = [
 var currentPlayer = 0
 var p1_score = 0
 var p2_score = 0
-var be = false
+var rounds = 0
 var stop_game = false
 
 function game() {
@@ -60,13 +61,27 @@ function game() {
                     case 8:
                         player(f, i, 2)
                         break
+                    default:
+                        console.log("Algo deu errado!")
+                        break
                 }
-
-                calcPlayerWin()
+                
                 animationCurrentPlayer()
+                calcPlayerWin()
             }
         })
     })
+
+    roundsChoicePlayer()
+}
+
+function roundsChoicePlayer() {
+    if (rounds % 2 === 0) {
+        currentPlayer = 0
+    }
+    else {
+        currentPlayer = 1
+    }
 }
 
 function player(f, c, l) {
@@ -139,15 +154,7 @@ function animationCurrentPlayer() {
         })
     }
     else {
-        player1.animate([
-            { opacity: "1" },
-            { opacity: "1" }
-        ], {
-            duration: 1,
-            iterations: Infinity,
-            easing: "ease-in-out",
-            direction: "alternate"
-        })
+        stopAnimationPlayer1()
     }
 
     if (currentPlayer === 1) {
@@ -162,73 +169,111 @@ function animationCurrentPlayer() {
         })
     }
     else {
-        player2.animate([
-            { opacity: "1" },
-            { opacity: "1" }
-        ], {
-            duration: 1,
-            iterations: Infinity,
-            easing: "ease-in-out",
-            direction: "alternate"
-        })
+        stopAnimationPlayer2()
     }
 }
 
 function calcPlayerWin() {
     const break_even = []
 
+    for (let i = 0; i < match_WIN_ALL.length; i++) {
+        const type = []
+
+        for (let j = 0; j < match_WIN_ALL[i].length; j++) {
+            if (fields[match_WIN_ALL[i][j]].innerHTML.length > 0) {
+                type.push(fields[match_WIN_ALL[i][j]].innerHTML)
+
+                if (type[0] === "X" && type[1] === "X" && type[2] === "X") {
+                    endGame("X")
+                    return
+                }
+                else if (type[0] === "O" && type[1] === "O" && type[2] === "O") {
+                    endGame("O")
+                    return
+                }
+                else continue
+            }
+        }
+    }
+
     for (let l = 0; l < fields.length; l++) {
         if (fields[l].innerHTML.length > 0) {
             break_even.push("ok")
         }
     }
-    
-    for (let i = 0; i < match_WIN_ALL.length; i++) {
-        const mod = []
-        const type = []
 
-        for (let j = 0; j < match_WIN_ALL[i].length; j++) {
-            if (fields[match_WIN_ALL[i][j]].innerHTML.length > 0) {
-                mod.push("ok")
-                type.push(fields[match_WIN_ALL[i][j]].innerHTML)
-
-                if (mod.length === 3) {
-                    for (let k = 0; k < type.length; k++) {
-                        if (type[0] === "X" && type[1] === "X" && type[2] === "X") {
-                            p1_score++
-                            console.log("X Ganhou!")
-                            stop_game = true
-                            endGame()
-                            break
-                        }
-                        else if (type[0] === "O" && type[1] === "O" && type[2] === "O") {
-                            p2_score++
-                            console.log("O Ganhou!")
-                            stop_game = true
-                            endGame()
-                            break
-                        }
-                        else if (break_even.length === 9) {
-                            be = true
-                            stop_game = true
-                            console.log("Empatou!")
-                            endGame()
-                            break
-                        }
-                        else continue
-                    }
-                }
-            }
-        }
+    if (break_even.length === 9) {
+        endGame("B")
+        return
     }
 }
 
-function endGame() {
-    console.log("Acabou!")
+function endGame(select) {
+    const p1_point = document.getElementById("p1_score")
+    const p2_point = document.getElementById("p2_score")
+
+    switch (select) {
+        case "X":
+            p1_score++
+            rounds++
+            stop_game = true
+            p1_point.innerText = p1_score
+            break
+        case "O":
+            p2_score++
+            rounds++
+            stop_game = true
+            p2_point.innerText = p2_score
+            break
+        case "B":
+            rounds++
+            stop_game = true
+            break
+        default:
+            console.log("Algo deu errado!")
+            break
+    }
+
+    resetGame()
 }
 
-function stopAnimationPlayer() {
-    
+function resetGame() {
+    for (let i = 0; i < matriz.length; i++) {
+        for (let j = 0; j < matriz.length; j++) {
+            matriz[i][j] = null
+        }
+    }
+
+    fields.forEach(f => {
+        f.innerHTML = ""
+    })
+
+    stop_game = false
+
+    stopAnimationPlayer1()
+    stopAnimationPlayer2()
 }
+
+function stopAnimationPlayer1() {
+    player1.animate([
+        { opacity: "1" }
+    ], {
+        duration: 1,
+        fill: "both"
+    })
+}
+
+function stopAnimationPlayer2() {
+    player2.animate([
+        { opacity: "1" }
+    ], {
+        duration: 1,
+        fill: "both"
+    })
+}
+
+restart.addEventListener("click", () => {
+    window.location.reload()
+})
 
 window.onload = () => game()

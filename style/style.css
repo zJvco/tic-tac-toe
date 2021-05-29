@@ -23,14 +23,6 @@ body {
     color: #fff;
 }
 
-.title h1 span:first-child {
-    color: #1ABC9C;
-}
-
-.title h1 span:last-child {
-    color: #E74C3C;
-}
-
 .game {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -86,4 +78,24 @@ body {
 
 .player-2 h4, .player-2 .fa-user-circle, .player-2 span {
     color: #E74C3C;
+}
+
+.restart-container {
+    margin: 30px 0;
+}
+
+.restart-container button {
+    border: none;
+    outline: none;
+    padding: 15px 40px;
+    background-color: #1ABC9C;
+    color: #fff;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.restart-container button:active {
+    background-color: #17A589;
 }
