@@ -2,7 +2,10 @@
     TicTacToe feito por João Victor
     
     0 --> Player X
-    1 --> Player Y
+    1 --> Player O
+
+    Player 1 --> X
+    Player 2 --> O
 */
 
 const fields = document.querySelectorAll(".fieldBtn")
